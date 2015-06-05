@@ -21,7 +21,7 @@
 
 
 
-$CONFIG_ = array(
+$CONFIG__ = array(
     
     "DB_CONFIG" => [
         "driver"                    => "mysql",

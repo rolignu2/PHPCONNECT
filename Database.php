@@ -1,4 +1,4 @@
-<?php
+<?php namespace SV_CORE;
 
 defined("GET_MAX") or define("GET_MAX", "MAX");
 defined("GET_MIN") or define("GET_MIN", "MIN");
@@ -6,21 +6,6 @@ defined("GET_AVG") or define("GET_AVG", "AVG");
 defined("GET_SUM") or define("GET_SUM", "SUM");
 defined("GET_COUNT") or define("GET_COUNT", "COUNT");
 
-define("GET_INNER_JOIN", "INNER ");
-define("GET_LEFT_JOIN", "LEFT ");
-define("GET_OUTER_JOIN", "OUTER ");
-define("GET_FULL_INNER_JOIN", "FULL INNER ");
-define("GET_LEFT_OUTER_JOIN", "LEFT OUTER ");
-define("GET_RIGHT_OUTER_JOIN", "RIGHT OUTER ");
-
-/**SE CAMBIARAN POR TRANSACCIONES ASINCRONAS*/
-
-
-define("GET_MAX", "MAX");
-define("GET_MIN", "MIN");
-define("GET_AVG", "AVG");
-define("GET_SUM", "SUM");
-define("GET_COUNT", "COUNT");
 define("GET_INNER_JOIN", "INNER ");
 define("GET_LEFT_JOIN", "LEFT ");
 define("GET_OUTER_JOIN", "OUTER ");
@@ -44,16 +29,10 @@ class Database {
     private $request            = NULL;
     
     var $query                  = NULL;
-<<<<<<< HEAD
-    
-    protected $transact         = NULL;
-
-=======
     
     protected $transact         = NULL;
     
     
->>>>>>> Dump
     public function __construct() {
         
         global $CONFIG_;
@@ -63,7 +42,7 @@ class Database {
         $this->prefix   = $CONFIG_["DB_CONFIG"]["prefix"];
         
         //CONFIGURACION QUE TIPO DE DRIVER INSTALO
-        switch ($CONFIG_["DB_CONFIG"]["driver"]){
+        switch ($CONFIG__["DB_CONFIG"]["driver"]){
             case "sqlite":
                      $this->dsn = "sqlite:" . $CONFIG_["DB_CONFIG"]["sqlite_db"];
                 break;
@@ -142,17 +121,16 @@ class Database {
             return $result;
     }
     
+    
     public function  CountRows(){
          return $this->request->rowCount();
     }
     
-<<<<<<< HEAD
-=======
     
->>>>>>> Dump
     public function CountColumn(){
         return  $this->request->columnCount();
     }
+    
     
     public function SimpleQuery($query){
         
@@ -160,28 +138,6 @@ class Database {
         return $this->db->exec($this->query);
     }
     
-    public function BeginTrans(){
-        $this->db->beginTransaction();
-    }
-    
-    public function TransQuery($query){
-        $this->transact[] = $this->db->exec($query);
-    }
-    
-    public function EndTrans(){
-        
-        try{
-            $this->db->commit();
-        } catch (Exception $ex) {
-            $this->db->rollBack();
-            $this->SetLog($ex->getMessage(), $ex->getLine());
-        }
-        
-    }
-    
-    public function ShowTransStatus(){
-        return $this->transact;
-    }
     
     public function BeginTrans(){
         $this->db->beginTransaction();
@@ -458,12 +414,6 @@ class Database {
     
     
     public function limit($from , $to){
-<<<<<<< HEAD
-        
-        $this->query_build[] = "LIMIT";
-        $this->query_build[] = "$from , $to";
-        
-=======
         
         $this->query_build[] = "LIMIT";
         $this->query_build[] = "$from , $to";
@@ -500,58 +450,10 @@ class Database {
     public function join($table , $value1 , $value2 , $type = GET_INNER_JOIN){
         $this->query_build[] = "$type JOIN $table ON $value1=$value2 ";
         
->>>>>>> Dump
         return $this;
     }
     
     
-<<<<<<< HEAD
-    public function where($name = NULL , $value = NULL ){
-        
-        $this->query_build[] = "WHERE";
-        
-        if (!empty($name)) {
-            
-            if(is_array($value)){
-                $data = [];
-                foreach ($value as $val){
-                    $data[] = "'$val'";
-                }
-                $this->query_build[] = " $name IN (" . implode(", ", $data) . ")";
-            }
-            else if($name !== NULL && $value !== NULL){
-                 $this->_like($name, $value);
-            }
-            else{
-                $this->query_build[] = $name;
-            }
-        }
-=======
-    public function _or($name , $value , $type = "LIKE"){
-        
-        $value = $this->isString($value);
-        $this->query_build[] = "OR $name $type $value";
->>>>>>> Dump
-        
-        return $this;
-    }
-    
-    
-<<<<<<< HEAD
-    public function join($table , $value1 , $value2 , $type = GET_INNER_JOIN){
-        $this->query_build[] = "$type JOIN $table ON $value1=$value2 ";
-=======
-    public function _and($name , $value , $type = "LIKE"){
-        
-        $value = $this->isString($value);
-        $this->query_build[] = "AND $name $type $value";
->>>>>>> Dump
-        
-        return $this;
-    }
-    
-    
-<<<<<<< HEAD
     public function _or($name , $value , $type = "LIKE"){
         
         $value = $this->isString($value);
@@ -579,17 +481,6 @@ class Database {
     }
     
     
-=======
-    public function _like($name , $value){
-            
-         $value = $this->isString($value);
-         $this->query_build[] = "$name LIKE $value";
-        
-         return $this;
-    }
-    
-    
->>>>>>> Dump
     public function _Notlike($name , $value){
             
          $value = $this->isString($value);
